@@ -7,8 +7,8 @@
 		var canvasContext;
 		var ballX = 50;
 		var ballY = 50;
-		var ballSpeedX = 8;
-		var ballSpeedY = 8;
+		var ballSpeedX = 6;
+		var ballSpeedY = 7;
 		var paddle1Y = 250;
 		var paddle2Y = 250;
 		var paddle3X = 350;
@@ -28,8 +28,8 @@
 		const PADDLE_WIDTH = 10;
 		const paddle3Y = 0;
 		const paddle4Y = 0;
-		const paddleSpeed = 10;
-		const paddleSpeedX = 20;
+		const paddleSpeed = 15;
+		const paddleSpeedX = 30;
 		/*
 		function calculateMousePos(evt){
 			var rect = canvas.getBoundingClientRect();
@@ -85,27 +85,27 @@
 		
 		function computerMovement() {
 			var paddle2YCenter = paddle2Y + PADDLE_HEIGHT/2;
-			if(paddle2YCenter < ballY-35) {
+			if(paddle2YCenter < ballY-25) {
 				paddle2Y += paddleSpeed;
-			}else if (paddle2YCenter > ballY+35){
+			}else if (paddle2YCenter > ballY+25){
 				paddle2Y -= paddleSpeed;
 			}
 			var paddle1YCenter = paddle1Y + PADDLE_HEIGHT/2;
-			if(paddle1YCenter < ballY-35){
+			if(paddle1YCenter < ballY-25){
 				paddle1Y += paddleSpeed;
-			}else if (paddle1YCenter > ballY+35){
+			}else if (paddle1YCenter > ballY+25){
 				paddle1Y -= paddleSpeed;
 			}
-			var paddle3XCenter = paddle3X + PADDLE_WIDTH/2;
-			if(paddle3XCenter < ballX-25){
+			var paddle3XCenter = paddle3X + PADDLE_HEIGHT/2;
+			if(paddle3XCenter < ballX-20){
 				paddle3X += paddleSpeedX;
-			}else if(paddle3XCenter > ballX +25){
+			}else if(paddle3XCenter > ballX +20){
 				paddle3X -= paddleSpeedX;
 			}
-			var paddle4XCenter = paddle4X + PADDLE_WIDTH/2;
-			if(paddle4XCenter < ballX -25){
+			var paddle4XCenter = paddle4X + PADDLE_HEIGHT/2;
+			if(paddle4XCenter < ballX -20){
 				paddle4X += paddleSpeedX;
-			}else if(paddle4XCenter > ballX +25){
+			}else if(paddle4XCenter > ballX +20){
 				paddle4X -= paddleSpeedX;
 			}
 		}
@@ -204,7 +204,7 @@
 			//bottom paddle
 			colorRect(paddle4X, canvas.height - PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_WIDTH,'white');
 			//Drawing ball here
-			colorCircle(ballX, ballY, 10, 'white');
+			colorCircle(ballX, ballY, 5, 'white');
 			//Scores
 			canvasContext.fillStyle = 'white';
 			canvasContext.fillText(p1s, 100, 100);
@@ -227,4 +227,5 @@
 		
 		</script>
 	<p1>Can't play the game, just watch in eternal boredom with me</p1>
+	<img src=https://imgur.com/a/A2HwV>
 </html>
