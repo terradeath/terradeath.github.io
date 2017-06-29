@@ -7,8 +7,8 @@
 		var canvasContext;
 		var ballX = 50;
 		var ballY = 50;
-		var ballSpeedX = 6;
-		var ballSpeedY = 6;
+		var ballSpeedX = 8;
+		var ballSpeedY = 8;
 		var paddle1Y = 250;
 		var paddle2Y = 250;
 		var paddle3X = 350;
@@ -97,15 +97,15 @@
 				paddle1Y -= paddleSpeed;
 			}
 			var paddle3XCenter = paddle3X + PADDLE_HEIGHT/2;
-			if(paddle3XCenter < ballX-15){
+			if(paddle3XCenter < ballX-20){
 				paddle3X += paddleSpeedX;
-			}else if(paddle3XCenter > ballX +15){
+			}else if(paddle3XCenter > ballX +20){
 				paddle3X -= paddleSpeedX;
 			}
 			var paddle4XCenter = paddle4X + PADDLE_HEIGHT/2;
-			if(paddle4XCenter < ballX -15){
+			if(paddle4XCenter < ballX -20){
 				paddle4X += paddleSpeedX;
-			}else if(paddle4XCenter > ballX +15){
+			}else if(paddle4XCenter > ballX +20){
 				paddle4X -= paddleSpeedX;
 			}
 		}
