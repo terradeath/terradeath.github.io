@@ -12,8 +12,8 @@
 		var canvasContext;
 		var ballX = 50;
 		var ballY = 50;
-		var ballSpeedX = 7;
-		var ballSpeedY = 7;
+		var ballSpeedX = 13;
+		var ballSpeedY = 13;
 		var paddle1Y = 250;
 		var paddle2Y = 250;
 		//var paddle3X = 350;
@@ -29,11 +29,12 @@
 		//var p4s = 0;
 		const WINNING_SCORE = 1000;
 
-		const PADDLE_HEIGHT = 100;
-		const PADDLE_WIDTH = 10;
+		const PADDLE_HEIGHT = 75;
+		const PADDLE_WIDTH = 5;
 		const paddle3Y = 0;
 		const paddle4Y = 0;
 		const paddleSpeed = 15;
+		const paddleSpeed2 = 20;
 		//const paddleSpeedX = 20;
 		/*
 		function calculateMousePos(evt){
@@ -91,14 +92,14 @@
 		function computerMovement() {
 			var paddle2YCenter = paddle2Y + PADDLE_HEIGHT/2;
 			if(paddle2YCenter < ballY-20) {
-				paddle2Y += paddleSpeed;
+				paddle2Y += paddleSpeed2;
 			}else if (paddle2YCenter > ballY+20){
-				paddle2Y -= paddleSpeed;
+				paddle2Y -= paddleSpeed2;
 			}
 			var paddle1YCenter = paddle1Y + PADDLE_HEIGHT/2;
-			if(paddle1YCenter < ballY-20){
+			if(paddle1YCenter < ballY-25){
 				paddle1Y += paddleSpeed;
-			}else if (paddle1YCenter > ballY+20){
+			}else if (paddle1YCenter > ballY+25){
 				paddle1Y -= paddleSpeed;
 			}
 			/*var paddle3XCenter = paddle3X + PADDLE_HEIGHT/2;
