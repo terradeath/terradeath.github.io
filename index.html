@@ -7,8 +7,8 @@
 		var canvasContext;
 		var ballX = 50;
 		var ballY = 50;
-		var ballSpeedX = 4;
-		var ballSpeedY = 8;
+		var ballSpeedX = 5;
+		var ballSpeedY = 5;
 		var paddle1Y = 250;
 		var paddle2Y = 250;
 		var paddle3X = 350;
@@ -29,7 +29,7 @@
 		const paddle3Y = 0;
 		const paddle4Y = 0;
 		const paddleSpeed = 20;
-		const paddleSpeedX = 25;
+		const paddleSpeedX = 30;
 		/*
 		function calculateMousePos(evt){
 			var rect = canvas.getBoundingClientRect();
@@ -97,15 +97,15 @@
 				paddle1Y -= paddleSpeed;
 			}
 			var paddle3XCenter = paddle3X + PADDLE_WIDTH/2;
-			if(paddle3XCenter < ballX-25){
+			if(paddle3XCenter < ballX-35){
 				paddle3X += paddleSpeedX;
-			}else if(paddle3XCenter > ballX +25){
+			}else if(paddle3XCenter > ballX +35){
 				paddle3X -= paddleSpeedX;
 			}
 			var paddle4XCenter = paddle4X + PADDLE_WIDTH/2;
-			if(paddle4XCenter < ballX -25){
+			if(paddle4XCenter < ballX -35){
 				paddle4X += paddleSpeedX;
-			}else if(paddle4XCenter > ballX +25){
+			}else if(paddle4XCenter > ballX +35){
 				paddle4X -= paddleSpeedX;
 			}
 		}
