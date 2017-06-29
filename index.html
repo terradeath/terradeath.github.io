@@ -1,76 +1,230 @@
-<title>When you get bored</title>
-<body>
-<h1>I got bored. Don't h8 m8</h1>
-<canvas id="gc" width="400" height="400"></canvas>
-<script>
-window.onload=function() {
-    canv=document.getElementById("gc");
-    ctx=canv.getContext("2d");
-    document.addEventListener("keydown",keyPush);
-    setInterval(game,1000/15);
-}
-px=py=10;
-gs=tc=20;
-ax=ay=15;
-xv=yv=0;
-trail=[];
-tail = 5;
-function game() {
-    px+=xv;
-    py+=yv;
-    if(px<0) {
-        px= tc-1;
-    }
-    if(px>tc-1) {
-        px= 0;
-    }
-    if(py<0) {
-        py= tc-1;
-    }
-    if(py>tc-1) {
-        py= 0;
-    }
-    ctx.fillStyle="black";
-    ctx.fillRect(0,0,canv.width,canv.height);
- 
-    ctx.fillStyle="lime";
-    for(var i=0;i<trail.length;i++) {
-        ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
-        if(trail[i].x==px && trail[i].y==py) {
-            tail = 5;
-        }
-    }
-    trail.push({x:px,y:py});
-    while(trail.length>tail) {
-    trail.shift();
-    }
- 
-    if(ax==px && ay==py) {
-        tail++;
-        ax=Math.floor(Math.random()*tc);
-        ay=Math.floor(Math.random()*tc);
-    }
-    ctx.fillStyle="red";
-    ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
-}
-function keyPush(evt) {
-    switch(evt.keyCode) {
-        case 37:
-            xv=-1;yv=0;
-            break;
-        case 38:
-            xv=0;yv=-1;
-            break;
-        case 39:
-            xv=1;yv=0;
-            break;
-        case 40:
-            xv=0;yv=1;
-            break;
-    }
-}
+<html>
+	<h1>I got bored.</h1>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+	
+		<script>
+		var canvas;
+		var canvasContext;
+		var ballX = 50;
+		var ballY = 50;
+		var ballSpeedX = 8;
+		var ballSpeedY = 8;
+		var paddle1Y = 250;
+		var paddle2Y = 250;
+		var paddle3X = 350;
+		var paddle4X = 350;
+		
+		
+		
+		var showingWinScreen = false;
+		
+		var p1s = 0;
+		var p2s = 0;
+		var p3s = 0;
+		var p4s = 0;
+		const WINNING_SCORE = 500;
 
-</script>﻿
-
-<p>To play, click in the game canvas and use the arrow keys to move the snake. There is no winning, so be bored for eternity.</p>
-</body>
+		const PADDLE_HEIGHT = 100;
+		const PADDLE_WIDTH = 10;
+		const paddle3Y = 0;
+		const paddle4Y = 0;
+		const paddleSpeed = 10;
+		const paddleSpeedX = 20;
+		/*
+		function calculateMousePos(evt){
+			var rect = canvas.getBoundingClientRect();
+			var root = document.documentElement;
+			var mouseX = evt.clientX - rect.left - root.scrollLeft;
+			var mouseY = evt.clientY - rect.top - root.scrollTop;
+			return {
+				x:mouseX,
+				y:mouseY
+			};
+		}
+		*/
+		function handleMouseClick(evt){
+			if(showingWinScreen) {
+				p1s = 0;
+				p2s = 0;
+				p3s = 0;
+				p4s = 0;
+				showingWinScreen = false;
+			}
+		}
+		
+		window.onload = function() {
+			canvas = document.getElementById('gameCanvas');
+			canvasContext = canvas.getContext('2d');
+		
+		var framesPerSecond = 30;
+		
+		setInterval(function(){
+			moveEverything();
+			drawEverything();
+		}, 1000/framesPerSecond);
+		
+		canvas.addEventListener('mousedown',handleMouseClick);
+		/*
+		//grab mouse position
+		canvas.addEventListener('mousemove',
+			function(evt) {
+			var mousePos = calculateMousePos(evt)
+				paddle1Y = mousePos.y-(PADDLE_HEIGHT/2);
+			});
+		*/
+	}
+		
+		function ballReset(){
+			if (p1s >= WINNING_SCORE || p2s >= WINNING_SCORE || p3s >= WINNING_SCORE || p4s >= WINNING_SCORE) {
+				showingWinScreen = true;
+			}
+			ballX = canvas.width/2;
+			ballY = canvas.height/2;
+			ballSpeedX = -ballSpeedX;
+		}
+		
+		function computerMovement() {
+			var paddle2YCenter = paddle2Y + PADDLE_HEIGHT/2;
+			if(paddle2YCenter < ballY-35) {
+				paddle2Y += paddleSpeed;
+			}else if (paddle2YCenter > ballY+35){
+				paddle2Y -= paddleSpeed;
+			}
+			var paddle1YCenter = paddle1Y + PADDLE_HEIGHT/2;
+			if(paddle1YCenter < ballY-35){
+				paddle1Y += paddleSpeed;
+			}else if (paddle1YCenter > ballY+35){
+				paddle1Y -= paddleSpeed;
+			}
+			var paddle3XCenter = paddle3X + PADDLE_WIDTH/2;
+			if(paddle3XCenter < ballX-25){
+				paddle3X += paddleSpeedX;
+			}else if(paddle3XCenter > ballX +25){
+				paddle3X -= paddleSpeedX;
+			}
+			var paddle4XCenter = paddle4X + PADDLE_WIDTH/2;
+			if(paddle4XCenter < ballX -25){
+				paddle4X += paddleSpeedX;
+			}else if(paddle4XCenter > ballX +25){
+				paddle4X -= paddleSpeedX;
+			}
+		}
+		
+		function moveEverything(){
+			if(showingWinScreen){
+				return;
+			}
+			computerMovement();
+			ballX += ballSpeedX;
+			ballY += ballSpeedY;
+				if (ballX >= gameCanvas.width){
+					if(ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT) {
+						ballSpeedX = -ballSpeedX;
+						
+						var deltaY = ballY -(paddle2Y+PADDLE_HEIGHT/2);
+						ballSpeedY = deltaY * 0.35;
+					}else{
+					p1s++;
+					ballReset();
+					}
+				}else if(ballX <= 0){
+					if(ballY > paddle1Y && ballY < paddle1Y+PADDLE_HEIGHT) {
+						ballSpeedX = -ballSpeedX
+						
+						var deltaY = ballY -(paddle1Y+PADDLE_HEIGHT/2);
+						ballSpeedY = deltaY * 0.35;
+					}else {
+					//reverse again
+					p2s++;
+					ballReset();
+					}
+				}else if (ballY >= gameCanvas.height){
+					if(ballX > paddle3X && ballX < paddle3X + PADDLE_HEIGHT){
+						ballSpeedY = -ballSpeedY;
+						
+						var deltaX = ballX -(paddle3X+PADDLE_WIDTH/2);
+						ballSpeedX = deltaX * 0.35;
+					}else{
+						p4s++;
+						ballReset();
+					}
+				}else if(ballY <= 0){
+					if(ballX > paddle4X && ballX < paddle4X+PADDLE_HEIGHT){
+						ballSpeedY = -ballSpeedY;
+						
+						var deltaX = ballX -(paddle4X + PADDLE_WIDTH/2);
+						ballSpeedX = deltaX * 0.35;
+					}else{
+						p3s++;
+						ballReset();
+					}
+				}
+				
+				
+			
+				/*if (ballY > gameCanvas.height) {
+					ballSpeedY = -ballSpeedY; //reverse Y
+				}else if(ballY < 0){
+					ballSpeedY = -ballSpeedY; //reverse Y again
+				}*/
+		}
+		
+		function drawNet() {
+			for (var i=0; i<canvas.height; i += 40){
+				colorRect(canvas.width/2-1, i, 2, 20, 'white');
+			}
+		}
+		
+		function drawEverything(){
+		//canvas (black square)
+			colorRect(0,0,canvas.width,canvas.height,'black');
+			if(showingWinScreen){
+			canvasContext.fillStyle = 'white';
+				if (p1s >= WINNING_SCORE) {
+					canvasContext.fillText("Left Player Won!", 350, 200);
+				}else if (p2s >= WINNING_SCORE){
+					canvasContext.fillText('Right Player Won!', 350, 200);
+				}else if (p3s >= WINNING_SCORE){
+					canvasContext.fillText('Top Player Won!', 350, 200);
+				}else if (p4s >= WINNING_SCORE) {
+					canvasContext.fillText('Bottom Player Won!', 350, 200);
+				}
+				
+				canvasContext.fillText("click to continue",350,500);
+				return;
+			}
+			drawNet();
+			//left paddle
+			colorRect(0,paddle1Y,PADDLE_WIDTH,PADDLE_HEIGHT,'white');
+			//right paddle
+			colorRect(canvas.width-PADDLE_WIDTH,paddle2Y,PADDLE_WIDTH,PADDLE_HEIGHT,'white');
+			
+			//top paddle
+			colorRect(paddle3X,paddle3Y,PADDLE_HEIGHT,PADDLE_WIDTH,'white');
+			//bottom paddle
+			colorRect(paddle4X, canvas.height - PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_WIDTH,'white');
+			//Drawing ball here
+			colorCircle(ballX, ballY, 10, 'white');
+			//Scores
+			canvasContext.fillStyle = 'white';
+			canvasContext.fillText(p1s, 100, 100);
+			canvasContext.fillText(p2s, canvas.width-100, 100);
+			canvasContext.fillText(p3s, 100, canvas.height-100);
+			canvasContext.fillText(p4s, canvas.width-100, canvas.height-100);
+		}
+		
+		function colorCircle(centerX,centerY,radius,color){
+			canvasContext.fillStyle = color;
+			canvasContext.beginPath();
+			canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
+			canvasContext.fill();
+		}
+		
+		function colorRect(leftX,topY,width,height,drawColor){
+			canvasContext.fillStyle = drawColor;
+			canvasContext.fillRect(leftX,topY,width,height);
+		}
+		
+		</script>
+	<p1>Can't play the game, just watch in eternal boredom with me</p1>
+</html>
